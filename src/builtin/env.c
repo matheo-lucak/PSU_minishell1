@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2019
-** 
+** env
 ** File description:
-** 
+** func for env
 */
 
 #include "my.h"

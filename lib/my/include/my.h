@@ -10,6 +10,7 @@
 
 int my_arrlen(char **str);
 int my_getnbr(char *nb_str);
+int my_hay_needle(char *str, char *to_find);
 char *my_int_to_str(int nb);
 void my_memset(char *str, char c, int len);
 int my_pow(int nb, int p);
@@ -37,6 +38,8 @@ int my_strlen(char const *str);
 char *my_strncat(char *dest, char const *src, int n);
 int my_strncmp(char const *s1, char const *s2, int n);
 char *my_strncpy(char *dest, char const *src, int n);
+char *my_strndup(char const *src, int n);
+char *my_strstr(char *str, char *to_find);
 
 int my_printf(const char *src, ...);
 char *get_next_line(int fd);

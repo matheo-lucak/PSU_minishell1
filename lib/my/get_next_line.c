@@ -6,8 +6,8 @@
 */
 
 #include <unistd.h>
-#include <stdlib.h>
 #include <stddef.h>
+#include <stdlib.h>
 #include "my.h"
 
 int is_end_of_line(char *buffer)
@@ -31,23 +31,25 @@ char *my_strdup_line(char *buffer)
         return (my_strdup("\n"));
     while (buffer[i] != '\0' && buffer[i] != '\n')
         i++;
-    line = malloc(sizeof(char) * (i + 1));
-    if (!line)
-        return (NULL);
-    my_strncpy(line, buffer, i);
-    line[i] = '\0';
+    line = my_strndup(buffer, i);
     return (line);
 }
 
 char *re_alloc_buffer(char *buffer, char *stock, int mode)
 {
     char *new_buffer = NULL;
+    int i = 0;
 
     if (mode) {
         new_buffer = my_strcat(buffer, stock);
-    } else if (!mode) {
-        new_buffer = my_strdup(stock);
+        free(buffer);
+        return (new_buffer);
     }
+    while (buffer[i + 1] != '\0' && buffer[i + 1] != '\n')
+        i++;
+    if (buffer[i + 1] == '\0')
+        return (NULL);
+    new_buffer = my_strdup(buffer + i + 2);
     free(buffer);
     return (new_buffer);
 }
@@ -72,20 +74,16 @@ char *get_next_line(int fd)
 {
     static char *buffer = NULL;
     char *line = NULL;
-    int i = -1;
     int rd = 1;
 
-    if (buffer == NULL) {
-        buffer = malloc(sizeof(char));
-        buffer[0] = '\0';
-    }
+    if (buffer == NULL)
+        buffer = my_strdup("\0");
     if (fd == -1)
         return (NULL);
     buffer = add_in_buffer(fd, buffer, &rd);
     if (buffer == NULL || (buffer[0] == '\0' && rd == 0))
         return (NULL);
     line = my_strdup_line(buffer);
-    while (buffer[++i] != '\0' && buffer[i] != '\n');
-    buffer = re_alloc_buffer(buffer, buffer + i + 1, 0);
+    buffer = re_alloc_buffer(buffer, buffer, 0);
     return (line);
 }

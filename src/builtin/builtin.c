@@ -13,7 +13,7 @@ int is_builtin(char **input)
     char *builtins[5] = {"cd", "setenv", "unsetenv", "env", NULL};
     int i = 0;
 
-    if (!input || !builtins || !input[0])
+    if (!input || !input[0])
         return (-1);
     while (builtins[i]) {
         if (!my_strcmp(builtins[i], input[0]))

@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2019
-** 
+** cd command
 ** File description:
-** 
+** change directory
 */
 
 #include "my.h"
@@ -29,17 +29,24 @@ int back_cd(char **env)
     env[i] = tmp1;
     env[j] = tmp2;
     chdir(env[j] + 4);
+    env[i] = clean_path(env[i]);
+    env[j] = clean_path(env[j]);
     return (0);
 }
 
 int regular_cd(char *path, char **env)
 {
+    char *tmp = NULL;
     int i = find_env(env, "PWD");
 
     if (i == -1)
         return (84);
-    env[i] = set_new_path(env[i], path);
+    tmp = set_new_path(env[i], path);
+    if (env[i])
+        free(env[i]);
+    env[i] = tmp;
     chdir(env[i] + 4);
+    env[i] = clean_path(env[i]);
     return (0);
 }
 

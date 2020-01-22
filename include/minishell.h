@@ -25,6 +25,6 @@ char *set_new_path(char *path, char *dir_name);
 int is_builtin(char **input);
 int change_directory(char **input, char **env);
 int env(char **input, char **env);
-
+char *clean_path(char *path);
 
 #endif

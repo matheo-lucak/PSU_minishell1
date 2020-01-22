@@ -7,11 +7,12 @@
 
 MAIN				=	src/main.c
 
-SRC					=	src/builtin/builtin.c	\
-						src/builtin/cd.c		\
-						src/builtin/env.c		\
-						src/exec/exec.c			\
-						src/exec/find_path.c	\
+SRC					=	src/builtin/builtin.c		\
+						src/builtin/env.c			\
+						src/builtin/cd.c			\
+						src/builtin/clean_path.c	\
+						src/exec/exec.c				\
+						src/exec/find_path.c		\
 
 OBJ					=	$(SRC:.c=.o) $(MAIN:.c=.o)
 
@@ -33,29 +34,29 @@ $(NAME):			$(LIB) $(OBJ)
 					$(LINK.o) -o $@ $(OBJ) $(LDFLAGS) $(LDLIBS)
 
 $(LIB):
-			$(MAKE) -C lib/my
+					$(MAKE) -C lib/my
 
-debug:		CPPFLAGS += -g
-debug:		$(LIB)
-			$(CC) -o $@ $(SRC) $(MAIN) $(CPPFLAGS) $(LDFLAGS) $(LDLIBS)
+debug:				CPPFLAGS += -g
+debug:				$(LIB)
+					$(CC) -o $@ $(SRC) $(MAIN) $(CPPFLAGS) $(LDFLAGS) $(LDLIBS)
 
-tests_run:	LDLIBS += -lcriterion --coverage
-tests_run:	CFLAGS += --coverage
-tests_run:	$(LIB)
-			$(CC) -o $@ $(SRC) $(CPPFLAGS) $(LDFLAGS) $(LDLIBS)
-			./$@
-			mv *.gc* tests/
-			$(RM) $@
+tests_run:			LDLIBS += -lcriterion --coverage
+tests_run:			CFLAGS += --coverage
+tests_run:			$(LIB)
+					$(CC) -o $@ $(SRC) $(CPPFLAGS) $(LDFLAGS) $(LDLIBS)
+					./$@
+					mv *.gc* tests/
+					$(RM) $@
 
 clean:
-			$(RM) $(OBJ)
-			$(MAKE) -C lib/my clean
+					$(RM) $(OBJ)
+					$(MAKE) -C lib/my clean
 
-fclean:		clean
-			$(RM) $(NAME)
-			$(MAKE) -C lib/my fclean
+fclean:				clean
+					$(RM) $(NAME)
+					$(MAKE) -C lib/my fclean
 
-re: 		fclean all
+re:			 		fclean all
 
 .NOTPARALLEL:
-.PHONY:		debug all clean fclean re tests_run
+.PHONY:				debug all clean fclean re tests_run
