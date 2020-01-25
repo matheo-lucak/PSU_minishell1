@@ -22,15 +22,11 @@ int back_cd(char **env)
         return (84);
     tmp1 = my_strcat("OLDPWD=", env[j] + 4);
     tmp2 = my_strcat("PWD=", env[i] + 7);
-    if (env[i])
-        free(env[i]);
     if (env[j])
         free(env[j]);
-    env[i] = tmp1;
+    set_oldpwd(env, tmp1);
     env[j] = tmp2;
     chdir(env[j] + 4);
-    env[i] = clean_path(env[i]);
-    env[j] = clean_path(env[j]);
     return (0);
 }
 
@@ -41,12 +37,12 @@ int regular_cd(char *path, char **env)
 
     if (i == -1)
         return (84);
+    set_oldpwd(env, env[i]);
     tmp = set_new_path(env[i], path);
     if (env[i])
         free(env[i]);
     env[i] = tmp;
     chdir(env[i] + 4);
-    env[i] = clean_path(env[i]);
     return (0);
 }
 
@@ -58,10 +54,12 @@ int cd_home(char **env)
 
     if (i == -1 || j == -1)
         return (84);
+    set_oldpwd(env, env[i]);
     tmp = my_strcat("PWD=/home/", env[j] + my_strlen("USER="));
     free(env[i]);
     env[i] = tmp;
     chdir(env[i] + 4);
+    clean_path(env);
     return (0);
 }
 
@@ -69,10 +67,12 @@ int special_cd(char **input, char **env)
 {
     if (input[0] && !input[1]) {
         cd_home(env);
+        clean_path(env);
         return (1);
     }
     if (input[1] && !my_strcmp(input[1], "-")) {
         back_cd(env);
+        clean_path(env);
         return (1);
     }
     return (0);
@@ -93,6 +93,7 @@ int change_directory(char **input, char **env)
     dir = opendir(input[1]);
     if (dir) {
         regular_cd(input[1], env);
+        clean_path(env);
         closedir(dir);
     } else
         my_printf("%s: No such file or directory.\n", input[1]);

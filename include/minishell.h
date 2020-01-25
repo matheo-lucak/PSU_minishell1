@@ -24,7 +24,12 @@ char *set_new_path(char *path, char *dir_name);
 
 int is_builtin(char **input);
 int change_directory(char **input, char **env);
+void set_oldpwd(char **env, char *old_path);
 int env(char **input, char **env);
-char *clean_path(char *path);
+void clean_path(char **env);
+
+void free_env(char **env);
+void dup_env(char **env);
+
 
 #endif

@@ -10,6 +10,7 @@ MAIN				=	src/main.c
 SRC					=	src/builtin/builtin.c		\
 						src/builtin/env.c			\
 						src/builtin/cd.c			\
+						src/builtin/cd_back.c		\
 						src/builtin/clean_path.c	\
 						src/exec/exec.c				\
 						src/exec/find_path.c		\

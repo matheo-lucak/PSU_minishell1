@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2019
-** csfml
+** minishell
 ** File description:
-** csflm rtfm
+** shell
 */
 
 #include "my.h"
@@ -17,44 +17,40 @@ static const int (*launch_builtin[])(char **, char **) = {
 
 int parse_input(char **input, char **env)
 {
-    int i = is_builtin(input);
+    int is_built = is_builtin(input);
+    int i = 0;
 
-    if (i != -1) {
-        launch_builtin[i](input, env);
+    if (!input)
+        return (1);
+    if (!my_strcmp(input[0], "exit") && !input[1]) {
+        my_putstr("exit\n");
+        free(input);
+        return (0);
+    }
+    if (is_built != -1) {
+        launch_builtin[is_built](input, env);
     } else if (input) {
         find_exec(input, env);
     }
-    return (0);
+    while (input && input[i]) {
+        free(input[i++]);
+    }
+    free(input);
+    return (1);
 }
 
 int minishell(int ac, char **av , char **env)
 {
     char *input = NULL;
-    char **parsed_input = NULL;
 
     my_putstr("$> ");
     input = get_next_line(0);
-    if (!input || !my_strcmp(input, "exit")) {
-        my_putstr("exit\n");
+    if (!parse_input(my_str_to_word_array(input, " "), env))
         return (0);
-    }
-    parsed_input = my_str_to_word_array(input, " ");
-    parse_input(parsed_input, env);
     minishell(ac, av, env);
+    if (input)
+        free(input);
     return (0);
-}
-
-void dup_env(char **env)
-{
-    int i = 0;
-
-    if (!env)
-        return ;
-    while (env[i]) {
-        env[i] = my_strdup(env[i]);
-        i++;
-    }
-    env[i] = NULL;
 }
 
 int main(int ac, char **av, char **env)
@@ -63,5 +59,6 @@ int main(int ac, char **av, char **env)
         return (84);
     dup_env(env);
     minishell(ac, av, env);
+    free_env(env);
     return (0);
 }
