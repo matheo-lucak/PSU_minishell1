@@ -9,6 +9,8 @@ MAIN				=	src/main.c
 
 SRC					=	src/builtin/builtin.c		\
 						src/builtin/env.c			\
+						src/builtin/setenv.c		\
+						src/builtin/unsetenv.c		\
 						src/builtin/cd.c			\
 						src/builtin/cd_back.c		\
 						src/builtin/clean_path.c	\

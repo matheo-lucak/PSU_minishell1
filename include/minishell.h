@@ -22,11 +22,6 @@ int my_exec(char **command, char *path, char **env);
 char *set_new_path(char *path, char *dir_name);
 
 int is_builtin(char **input);
-int env(char **input, char ***env);
-int set_env(char **input, char ***env);
-int unset_env(char **input, char ***env);
-int change_directory(char **input, char ***env);
-int find_exec(char **input, char ***env);
 
 void set_oldpwd(char **env, char *old_path);
 void clean_path(char **env);

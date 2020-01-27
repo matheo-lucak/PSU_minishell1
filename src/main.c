@@ -7,7 +7,7 @@
 
 #include "my.h"
 #include "minishell.h"
-#include "func_ptr.h"
+#include "builtin.h"
 
 static int (*launch_builtin[])(char **, char ***);
 
