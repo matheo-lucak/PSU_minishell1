@@ -20,9 +20,7 @@ int parse_input(char **input, char **env)
     int is_built = is_builtin(input);
     int i = 0;
 
-    if (!input)
-        return (1);
-    if (!my_strcmp(input[0], "exit") && !input[1]) {
+    if (!input || (!my_strcmp(input[0], "exit") && !input[1])) {
         my_putstr("exit\n");
         free(input);
         return (0);
