@@ -11,13 +11,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int env(char **input, char **env)
+int env(char **input, char ***env)
 {
     if (input)
         input = input;
-    if (!env)
+    if (!(*env))
         return (84);
-    my_show_word_array(env);
+    my_show_word_array(*env);
     return (0);
 }
 

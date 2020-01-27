@@ -7,16 +7,11 @@
 
 #include "my.h"
 #include "minishell.h"
+#include "func_ptr.h"
 
-static const int (*launch_builtin[])(char **, char **) = {
-    change_directory,
-    change_directory,
-    change_directory,
-    env,
-    find_exec
-};
+static int (*launch_builtin[])(char **, char ***);
 
-int parse_input(char **input, char **env)
+int parse_input(char **input, char ***env)
 {
     int is_built = is_builtin(input);
     int i = 0;
@@ -34,7 +29,7 @@ int parse_input(char **input, char **env)
     return (1);
 }
 
-int minishell(int ac, char **av , char **env)
+int minishell(int ac, char **av , char ***env)
 {
     char *input = NULL;
 
@@ -42,8 +37,6 @@ int minishell(int ac, char **av , char **env)
     input = get_next_line(0);
     if (!parse_input(my_str_to_word_array(input, " \t"), env))
         return (0);
-    if (input)
-        free(input);
     minishell(ac, av, env);
     return (0);
 }
@@ -53,7 +46,7 @@ int main(int ac, char **av, char **env)
     if (env == NULL)
         return (84);
     dup_env(env);
-    minishell(ac, av, env);
+    minishell(ac, av, &env);
     free_env(env);
     return (0);
 }
