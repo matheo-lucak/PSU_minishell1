@@ -5,11 +5,18 @@
 ** shell
 */
 
+#include <signal.h>
 #include "my.h"
 #include "minishell.h"
 #include "builtin.h"
 
 static int (*launch_builtin[])(char **, char ***);
+
+void sigint_signal_gesture(int sig)
+{
+    my_putstr("\n$> ");
+    signal(SIGINT, sigint_signal_gesture);
+}
 
 int parse_input(char **input, char ***env)
 {
@@ -21,7 +28,8 @@ int parse_input(char **input, char ***env)
     while (input && input[i]) {
         free(input[i++]);
     }
-    free(input);
+    if (input)
+        free(input);
     return (error);
 }
 
@@ -41,8 +49,10 @@ int main(int ac, char **av, char **env)
 {
     if (env == NULL)
         return (84);
+    signal(SIGINT, sigint_signal_gesture);
     dup_env(env);
     minishell(ac, av, &env);
     free_env(env);
+    signal(SIGINT, SIG_DFL);
     return (0);
 }

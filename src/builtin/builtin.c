@@ -14,7 +14,7 @@ int is_builtin(char **input)
     int i = 0;
 
     if (!input || !input[0])
-        return (-1);
+        return (4);
     while (builtins[i]) {
         if (!my_strcmp(builtins[i], input[0]))
             return (i);
