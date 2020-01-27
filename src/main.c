@@ -15,18 +15,14 @@ int parse_input(char **input, char ***env)
 {
     int is_built = is_builtin(input);
     int i = 0;
+    int error = 1;
 
-    if (!input || (!my_strcmp(input[0], "exit") && !input[1])) {
-        my_putstr("exit\n");
-        free(input);
-        return (0);
-    }
-    launch_builtin[is_built](input, env);
+    error = launch_builtin[is_built](input, env);
     while (input && input[i]) {
         free(input[i++]);
     }
     free(input);
-    return (1);
+    return (error);
 }
 
 int minishell(int ac, char **av , char ***env)

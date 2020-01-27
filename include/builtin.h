@@ -13,12 +13,14 @@ int set_env(char **input, char ***env);
 int unset_env(char **input, char ***env);
 int change_directory(char **input, char ***env);
 int find_exec(char **input, char ***env);
+int exit_minishell(char **input, char ***env);
 
 static int (*launch_builtin[])(char **, char ***) = {
     change_directory,
     set_env,
     unset_env,
     env,
+    exit_minishell,
     find_exec
 };
 

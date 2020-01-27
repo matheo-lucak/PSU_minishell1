@@ -8,6 +8,7 @@
 MAIN				=	src/main.c
 
 SRC					=	src/builtin/builtin.c		\
+						src/builtin/exit.c			\
 						src/builtin/env.c			\
 						src/builtin/setenv.c		\
 						src/builtin/unsetenv.c		\

@@ -10,7 +10,7 @@
 
 int is_builtin(char **input)
 {
-    char *builtins[5] = {"cd", "setenv", "unsetenv", "env", NULL};
+    char *builtins[6] = {"cd", "setenv", "unsetenv", "env", "exit", NULL};
     int i = 0;
 
     if (!input || !input[0])

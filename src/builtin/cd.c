@@ -89,7 +89,7 @@ int change_directory(char **input, char ***env)
     if (!input || !input[0])
         return (84);
     if (special_cd(input, *env))
-        return (0);
+        return (1);
     dir = opendir(input[1]);
     if (dir) {
         regular_cd(input[1], *env);
@@ -97,5 +97,5 @@ int change_directory(char **input, char ***env)
         closedir(dir);
     } else
         my_printf("%s: No such file or directory.\n", input[1]);
-    return (0);
+    return (1);
 }

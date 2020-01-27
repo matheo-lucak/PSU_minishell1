@@ -63,5 +63,5 @@ int unset_env(char **input, char ***env)
         input_idx++;
     }
     dup_unset_env(*env);
-    return (0);
+    return (1);
 }

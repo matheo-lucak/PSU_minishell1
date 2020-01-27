@@ -68,5 +68,5 @@ int set_env(char **input, char ***env)
         return (84);
     var_nb = (my_arrlen(input) - 1) / 2;
     *env = dup_set_env(input, *env, var_nb);
-    return (0);
+    return (1);
 }

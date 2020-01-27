@@ -59,5 +59,5 @@ int find_exec(char **input, char ***env)
         i++;
     }
     my_printf("%s: Command not found.\n", input[0]);
-    return (0);
+    return (1);
 }

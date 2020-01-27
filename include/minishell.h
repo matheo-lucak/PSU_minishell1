@@ -8,6 +8,8 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
+#define UNUSED(x) (void *)x
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
