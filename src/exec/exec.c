@@ -5,8 +5,16 @@
 ** csflm rtfm
 */
 
+#include <signal.h>
 #include "my.h"
 #include "minishell.h"
+
+void exec_error(int child_status)
+{
+    if (WIFSIGNALED(child_status) &&
+        __WCOREDUMP(child_status))
+        my_putstr("Segmentation fault (core dumped)\n");
+}
 
 int my_exec(char **input, char *path, char **env)
 {
@@ -23,6 +31,7 @@ int my_exec(char **input, char *path, char **env)
         execve(bin_path, input, env);
     } else {
         waitpid(pid, &child_status, 0);
+        exec_error(child_status);
         free(bin_path);
     }
     return (1);
