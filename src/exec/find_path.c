@@ -29,8 +29,10 @@ int read_fold(char **input, DIR *dir, char *path, char **env)
 
     dirent = readdir(dir);
     while (dirent != NULL) {
-        if (dirent->d_type != 4 &&
-            !my_strcmp(dirent->d_name, input[0])) {
+        if (dirent->d_type != 4 && (
+            !my_strcmp(dirent->d_name, input[0]) ||
+            (!my_strcmp(dirent->d_name, input[0] + 2) &&
+            !my_strncmp(input[0], "./", 2)))) {
             my_exec(input, path, env);
             return (1);
             }

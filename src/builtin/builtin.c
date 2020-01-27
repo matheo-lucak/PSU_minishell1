@@ -20,5 +20,5 @@ int is_builtin(char **input)
             return (i);
         i++;
     }
-    return (-1);
+    return (i);
 }

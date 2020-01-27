@@ -12,7 +12,8 @@ static const int (*launch_builtin[])(char **, char **) = {
     change_directory,
     change_directory,
     change_directory,
-    env
+    env,
+    find_exec
 };
 
 int parse_input(char **input, char **env)
@@ -25,11 +26,7 @@ int parse_input(char **input, char **env)
         free(input);
         return (0);
     }
-    if (is_built != -1) {
-        launch_builtin[is_built](input, env);
-    } else if (input) {
-        find_exec(input, env);
-    }
+    launch_builtin[is_built](input, env);
     while (input && input[i]) {
         free(input[i++]);
     }
@@ -43,11 +40,11 @@ int minishell(int ac, char **av , char **env)
 
     my_putstr("$> ");
     input = get_next_line(0);
-    if (!parse_input(my_str_to_word_array(input, " "), env))
+    if (!parse_input(my_str_to_word_array(input, " \t"), env))
         return (0);
-    minishell(ac, av, env);
     if (input)
         free(input);
+    minishell(ac, av, env);
     return (0);
 }
 

@@ -51,6 +51,8 @@ int find_exec(char **input, char **env)
     path = my_str_to_word_array(env[path_idx], "=:");
     if (!path)
         return (84);
+    if (open_fold(input, ".", env))
+            return (1);
     while (path[i]) {
         if (open_fold(input, path[i], env))
             return (1);
