@@ -40,11 +40,12 @@ void prompt(char **env)
 {
     int fd = -1;
 
+    my_putstr("\e[1;34m\u039E\e[0m");
     prompt_pwd(env);
     fd = open(".git/HEAD", O_RDONLY);
     if (fd != -1) {
         prompt_git(fd);
         close(fd);
     }
-    my_putstr("\e[1;31m=> \e[0m");
+    my_putstr("\e[1;31m\u039E> \e[0m");
 }

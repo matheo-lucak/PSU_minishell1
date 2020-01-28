@@ -16,7 +16,7 @@ void sigint_signal_gesture(int sig)
 {
     if (!sig)
         return ;
-    my_putstr("\n$> ");
+    my_putstr("\n\e[1;31m=> \e[0m");
     signal(SIGINT, sigint_signal_gesture);
 }
 
@@ -26,6 +26,8 @@ int parse_input(char **input, char ***env)
     int i = 0;
     int error = 1;
 
+    if (!input)
+        return (0);
     if (!my_strncmp(input[0], "\n", 1))
         return (1);
     error = launch_builtin[is_built](input, env);
