@@ -14,6 +14,8 @@ static int (*launch_builtin[])(char **, char ***);
 
 void sigint_signal_gesture(int sig)
 {
+    if (!sig)
+        return ;
     my_putstr("\n$> ");
     signal(SIGINT, sigint_signal_gesture);
 }
@@ -24,6 +26,8 @@ int parse_input(char **input, char ***env)
     int i = 0;
     int error = 1;
 
+    if (!my_strncmp(input[0], "\n", 1))
+        return (1);
     error = launch_builtin[is_built](input, env);
     while (input && input[i]) {
         free(input[i++]);
@@ -37,7 +41,7 @@ int minishell(int ac, char **av , char ***env)
 {
     char *input = NULL;
 
-    my_putstr("$> ");
+    prompt(*env);
     input = get_next_line(0);
     if (!parse_input(my_str_to_word_array(input, " \t"), env))
         return (0);
