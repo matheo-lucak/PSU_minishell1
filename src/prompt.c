@@ -27,4 +27,5 @@ void prompt(char **env)
         prompt_git(fd);
         close(fd);
     }
+    my_putstr("\e[1;31m->\e[0m");
 }
