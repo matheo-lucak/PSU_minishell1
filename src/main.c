@@ -43,7 +43,7 @@ int minishell(int ac, char **av , char **env)
 {
     char *input = NULL;
 
-    my_putstr("$> ");
+    prompt(env);
     input = get_next_line(0);
     if (!parse_input(my_str_to_word_array(input, " "), env))
         return (0);

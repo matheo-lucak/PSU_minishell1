@@ -7,7 +7,8 @@
 
 MAIN				=	src/main.c
 
-SRC					=	src/builtin/builtin.c		\
+SRC					=	src/prompt.c				\
+						src/builtin/builtin.c		\
 						src/builtin/env.c			\
 						src/builtin/cd.c			\
 						src/builtin/cd_back.c		\
