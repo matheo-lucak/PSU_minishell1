@@ -39,11 +39,30 @@ char *new_env_var(char **input, int i)
     return (tmp2);
 }
 
-char **dup_set_env(char **input, char **env, int var_nb)
+void set_newenv_var(char **input, char **new_env, char **env, int i)
+{
+    int j = 0;
+    int shift_j = 0;
+    int var_nb = (my_arrlen(input) - 1) / 2;
+    int env_idx = 0;
+
+    while (j < var_nb) {
+        env_idx = find_env(env, input[j * 2 + 1]);
+        if (env_idx != -1) {
+            new_env[env_idx] = new_env_var(input, j * 2 + 1);
+            shift_j--;
+        } else
+            new_env[i + j + shift_j] = new_env_var(input, j * 2 + 1);
+        j++;
+    }
+    new_env[i + j + shift_j] = NULL;
+}
+
+char **dup_set_env(char **input, char **env)
 {
     int i = 0;
-    int j = 0;
-    char **new_env = malloc(sizeof(char *) * (my_arrlen(env) + var_nb + 1));
+    char **new_env = malloc(sizeof(char *) * (my_arrlen(env) +
+        (my_arrlen(input) - 1) / 2 + 1));
 
     if (!new_env)
         return (NULL);
@@ -51,22 +70,15 @@ char **dup_set_env(char **input, char **env, int var_nb)
         new_env[i] = my_strdup(env[i]);
         i++;
     }
-    while (j < var_nb) {
-        new_env[i + j] = new_env_var(input, j + 1);
-        j++;
-    }
-    new_env[i + j] = NULL;
+    set_newenv_var(input, new_env, env, i);
     free_env(env);
     return (new_env);
 }
 
 int set_env(char **input, char ***env)
 {
-    int var_nb = 0;
-
     if (set_env_error(input, *env) == 84)
         return (84);
-    var_nb = (my_arrlen(input) - 1) / 2;
-    *env = dup_set_env(input, *env, var_nb);
+    *env = dup_set_env(input, *env);
     return (1);
 }
