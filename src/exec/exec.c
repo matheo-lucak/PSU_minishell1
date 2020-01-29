@@ -16,12 +16,23 @@ void exec_error(int child_status)
         my_putstr("Segmentation fault (core dumped)\n");
 }
 
+int execve_error(char *bin_path)
+{
+    if (access(bin_path, X_OK) == -1) {
+        my_printf("%s: Permission denied.\n", bin_path + 2);
+        return (0);
+    }
+    return (1);
+}
+
 int my_exec(char **input, char *path, char **env)
 {
     char * bin_path = set_new_path(path, input[0]);
     pid_t pid = -1;
-    int child_status;
+    int child_status = 0;
 
+    if (!execve_error(bin_path))
+        return (84);
     pid = fork();
     if (pid == -1) {
         my_putstr("ERROR: Failed to spawn child process!\n");
