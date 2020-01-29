@@ -21,14 +21,13 @@ void prompt_git(int fd)
     free(parsed_str);
 }
 
-void prompt_pwd(char **env)
+void prompt_pwd(void)
 {
-    int pwd_idx = find_env(env, "PWD");
+    char cwd[4096];
     char **parsed_pwd = NULL;
 
-    if (pwd_idx == -1 || !env[pwd_idx])
-        return ;
-    parsed_pwd = my_str_to_word_array(env[pwd_idx], "/");
+    getcwd(cwd, 4096);
+    parsed_pwd = my_str_to_word_array(cwd, "/");
     if (!parsed_pwd)
         return ;
     my_printf("[\e[0;32m%s\e[0m]", parsed_pwd[my_arrlen(parsed_pwd) - 1]);
@@ -36,16 +35,16 @@ void prompt_pwd(char **env)
     free(parsed_pwd);
 }
 
-void prompt(char **env)
+void prompt(void)
 {
     int fd = -1;
 
     my_putstr("\e[1;34m\u039E\e[0m");
-    prompt_pwd(env);
+    prompt_pwd();
     fd = open(".git/HEAD", O_RDONLY);
     if (fd != -1) {
         prompt_git(fd);
         close(fd);
     }
     my_putstr("\e[1;31m\u039E> \e[0m");
-}
+    }

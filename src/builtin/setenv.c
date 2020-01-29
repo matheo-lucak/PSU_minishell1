@@ -52,8 +52,10 @@ char **dup_set_env(char **input, char **env)
     }
     if (find_env(env, input[1]) == -1)
         new_env[i] = new_env_var(input);
-    else
+    else {
         new_env[find_env(env, input[1])] = new_env_var(input);
+        new_env[i] = NULL;
+    }
     new_env[i + 1] = NULL;
     free_env(env);
     return (new_env);

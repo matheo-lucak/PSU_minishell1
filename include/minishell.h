@@ -22,7 +22,8 @@ int find_env(char **env, char *str);
 int open_fold(char **input, char *path, char **env);
 int my_exec(char **command, char *path, char **env);
 char *set_new_path(char *path, char *dir_name);
-void prompt(char **env);
+void prompt(void);
+void prompt_pwd(void);
 
 int is_builtin(char **input);
 

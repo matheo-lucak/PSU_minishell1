@@ -46,7 +46,7 @@ int open_fold(char **input, char *path, char **env)
 {
     DIR *dir = NULL;
 
-    if (!path)
+    if (!path || !input)
         return (84);
     dir = opendir(path);
     if (dir)
