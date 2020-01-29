@@ -30,7 +30,7 @@ int parse_input(char **input, char ***env)
     int error = 1;
 
     if (!input)
-        return (0);
+        return (launch_builtin[is_built](input, env));
     if (!my_strncmp(input[0], "\n", 1))
         return (1);
     error = launch_builtin[is_built](input, env);
