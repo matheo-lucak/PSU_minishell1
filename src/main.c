@@ -54,14 +54,20 @@ int minishell(int ac, char **av , char ***env)
     return (0);
 }
 
+int init_minishell(int ac, char **av, char **env)
+{
+    char **new_env = dup_env(env);
+
+    signal(SIGINT, sigint_signal_gesture);
+    dup_env(env);
+    minishell(ac, av, &new_env);
+    signal(SIGINT, SIG_DFL);
+    return (0);
+}
+
 int main(int ac, char **av, char **env)
 {
     if (env == NULL)
         return (84);
-    signal(SIGINT, sigint_signal_gesture);
-    dup_env(env);
-    minishell(ac, av, &env);
-    free_env(env);
-    signal(SIGINT, SIG_DFL);
-    return (0);
+    return (init_minishell(ac, av, env));
 }

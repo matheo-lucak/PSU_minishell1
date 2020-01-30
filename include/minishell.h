@@ -31,6 +31,6 @@ void set_oldpwd(char **env, char *old_path);
 void clean_path(char **env);
 
 void free_env(char **env);
-void dup_env(char **env);
+char **dup_env(char **env);
 
 #endif

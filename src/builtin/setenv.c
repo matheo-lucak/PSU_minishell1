@@ -58,6 +58,7 @@ char **dup_set_env(char **input, char **env)
     }
     new_env[i + 1] = NULL;
     free_env(env);
+    free(env);
     return (new_env);
 }
 

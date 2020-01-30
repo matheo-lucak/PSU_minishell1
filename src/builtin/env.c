@@ -33,15 +33,18 @@ void free_env(char **env)
     }
 }
 
-void dup_env(char **env)
+char **dup_env(char **env)
 {
+    char **new_env = NULL;
     int i = 0;
 
     if (!env)
-        return ;
+        return (NULL);
+    new_env = malloc(sizeof(char *) * (my_arrlen(env) + 1));
     while (env[i]) {
-        env[i] = my_strdup(env[i]);
+        new_env[i] = my_strdup(env[i]);
         i++;
     }
-    env[i] = NULL;
+    new_env[i] = NULL;
+    return (new_env);
 }
