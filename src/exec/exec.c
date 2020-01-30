@@ -11,9 +11,19 @@
 
 void exec_error(int child_status)
 {
-    if (WIFSIGNALED(child_status) &&
-        __WCOREDUMP(child_status))
-        my_putstr("Segmentation fault (core dumped)\n");
+    int signal = WTERMSIG(child_status);
+
+    if (!WIFSIGNALED(child_status))
+        return ;
+    if (signal == SIGSEGV)
+        my_putstr("Segmentation fault");
+    if (signal == SIGFPE)
+        my_putstr("Floating exception");
+    if ((signal == SIGSEGV  || signal == SIGFPE) && __WCOREDUMP(child_status))
+        my_putstr(" (core dumped)");
+    else if (__WCOREDUMP(child_status))
+        my_putstr("Abort (core dumped)");
+    my_putchar('\n');
 }
 
 int execve_error(char *bin_path)
@@ -71,7 +81,7 @@ int find_exec(char **input, char ***env)
     path = my_str_to_word_array((*env)[path_idx], "=:");
     if (!path)
         return (84);
-    if (open_fold(input, ".", *env))
+    if (!my_strncmp(input[0], ".", 1) && open_fold(input, ".", *env))
             return (1);
     while (path[i]) {
         if (open_fold(input, path[i], *env))
