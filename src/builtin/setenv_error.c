@@ -20,7 +20,7 @@ int set_env_count_brackets(char *input)
         if (input[i] == '(')
             bracket_idx++;
         else if (input[i] == ')')
-            bracket_idx++;
+            bracket_idx--;
         i++;
     }
     if (bracket_idx > 0) {
@@ -52,8 +52,6 @@ int set_env_alphnum_error(char *input)
 
 int set_env_error(char **input, char **env)
 {
-    if (!input || !env)
-        return (84);
     if (my_arrlen(input) > 3) {
         my_printf("%s: Too many arguments.\n", input[0]);
         return (84);
