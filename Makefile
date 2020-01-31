@@ -16,6 +16,7 @@ SRC					=	src/prompt.c				\
 						src/builtin/unsetenv.c		\
 						src/builtin/cd.c			\
 						src/builtin/cd_back.c		\
+						src/builtin/cd_error.c		\
 						src/builtin/clean_path.c	\
 						src/exec/exec.c				\
 						src/exec/find_path.c		\

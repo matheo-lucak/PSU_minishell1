@@ -42,6 +42,23 @@ int read_fold(char **input, DIR *dir, char *path, char **env)
     return (0);
 }
 
+int raw_exec(char **input, char **env)
+{
+    int i = my_strlen(*input) - 1;
+    char *tmp = NULL;
+
+    if (input[0][0] != '/')
+        return (84);
+    while (input[0][i] != '/') {
+        i--;
+    }
+    tmp = my_strndup(input[0], i);
+    input[0] = my_strdup(input[0] + i + 1);
+    open_fold(input, tmp, env);
+    free(tmp);
+    return (1);
+}
+
 int open_fold(char **input, char *path, char **env)
 {
     DIR *dir = NULL;
@@ -49,8 +66,8 @@ int open_fold(char **input, char *path, char **env)
     if (!path || !input)
         return (84);
     dir = opendir(path);
-    if (dir)
-        if (read_fold(input, dir, path, env))
-        return (1);
+    if (dir) {
+        return (read_fold(input, dir, path, env));
+    }
     return (0);
 }

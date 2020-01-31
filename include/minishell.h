@@ -30,6 +30,8 @@ int is_builtin(char **input);
 void set_oldpwd(char **env, char *old_path);
 void clean_path(char **env);
 int set_env_error(char **input);
+int cd_error(char *input);
+int raw_exec(char **input, char **env);
 
 void free_env(char **env);
 char **dup_env(char **env);

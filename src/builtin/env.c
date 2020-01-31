@@ -48,3 +48,15 @@ char **dup_env(char **env)
     new_env[i] = NULL;
     return (new_env);
 }
+
+int find_env(char **env, char *str)
+{
+    int i = 0;
+
+    while (env[i]) {
+        if (!my_strncmp(str, env[i], my_strlen(str)))
+            return (i);
+        i++;
+    }
+    return (-1);
+}

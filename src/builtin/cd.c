@@ -49,15 +49,17 @@ int regular_cd(char *path, char **env)
 int cd_home(char **env, char *input)
 {
     int i = find_env(env, "PWD");
-    int j = find_env(env, "USER");
+    int j = find_env(env, "HOME");
     char *tmp = NULL;
 
     if (i == -1 || j == -1)
         return (84);
     set_oldpwd(env, env[i]);
-    tmp = my_strcat("PWD=/home/", env[j] + my_strlen("USER="));
+    tmp = my_strcat("PWD=", env[j] + my_strlen("HOME="));
     if (input)
         tmp = my_strcat(tmp, input + 1);
+    if (cd_error(tmp + my_strlen("PWD=")) == 84)
+        return (84);
     free(env[i]);
     env[i] = tmp;
     chdir(env[i] + 4);
@@ -82,8 +84,6 @@ int special_cd(char **input, char **env)
 
 int change_directory(char **input, char ***env)
 {
-    DIR *dir = NULL;
-
     if (my_arrlen(input) > 2) {
         my_printf("cd: Too few arguments\n");
         return (84);
@@ -92,12 +92,9 @@ int change_directory(char **input, char ***env)
         return (84);
     if (special_cd(input, *env))
         return (1);
-    dir = opendir(input[1]);
-    if (dir) {
+    if (cd_error(input[1]) != 84) {
         regular_cd(input[1], *env);
         clean_path(*env);
-        closedir(dir);
-    } else
-        my_printf("%s: No such file or directory.\n", input[1]);
+    }
     return (1);
 }

@@ -58,16 +58,13 @@ int my_exec(char **input, char *path, char **env)
     return (1);
 }
 
-int find_env(char **env, char *str)
+int special_exec(char **input, char **env)
 {
-    int i = 0;
-
-    while (env[i]) {
-        if (!my_strncmp(str, env[i], my_strlen(str)))
-            return (i);
-        i++;
-    }
-    return (-1);
+    if (input[0][0] == '/')
+        return (raw_exec(input, env));
+    if (input[0][0] == '.')
+        return (open_fold(input, ".", env));
+    return (1);
 }
 
 int find_exec(char **input, char ***env)
@@ -80,11 +77,11 @@ int find_exec(char **input, char ***env)
         my_printf("%s: Command not found.\n", input[0]);
         return (84);
     }
+    if (input[0][0] == '/' || input[0][0] == '.')
+        return (special_exec(input, *env));
     path = my_str_to_word_array((*env)[path_idx], "=:");
     if (!path)
         return (84);
-    if (!my_strncmp(input[0], ".", 1) && open_fold(input, ".", *env))
-            return (1);
     while (path[i]) {
         if (open_fold(input, path[i], *env))
             return (1);
