@@ -76,8 +76,10 @@ int find_exec(char **input, char ***env)
     int path_idx = find_env(*env, "PATH=");
     int i = 0;
 
-    if (path_idx == -1)
+    if (path_idx == -1) {
+        my_printf("%s: Command not found.\n", input[0]);
         return (84);
+    }
     path = my_str_to_word_array((*env)[path_idx], "=:");
     if (!path)
         return (84);

@@ -50,7 +50,7 @@ int set_env_alphnum_error(char *input)
     return (0);
 }
 
-int set_env_error(char **input, char **env)
+int set_env_error(char **input)
 {
     if (my_arrlen(input) > 3) {
         my_printf("%s: Too many arguments.\n", input[0]);

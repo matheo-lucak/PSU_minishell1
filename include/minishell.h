@@ -29,7 +29,7 @@ int is_builtin(char **input);
 
 void set_oldpwd(char **env, char *old_path);
 void clean_path(char **env);
-int set_env_error(char **input, char **env);
+int set_env_error(char **input);
 
 void free_env(char **env);
 char **dup_env(char **env);

@@ -59,7 +59,7 @@ int set_env(char **input, char ***env)
         my_show_word_array(*env);
         return (1);
     }
-    if (set_env_error(input, *env) == 84)
+    if (set_env_error(input) == 84)
         return (84);
     *env = dup_set_env(input, *env);
     return (1);
