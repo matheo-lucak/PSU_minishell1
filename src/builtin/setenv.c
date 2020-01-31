@@ -11,22 +11,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int set_env_error(char **input, char **env)
-{
-    if (!input || !env)
-        return (84);
-    if ((input[1][0] < 'a' || input[1][0] > 'z') &&
-        (input[1][0] < 'A' || input[1][0] > 'Z')) {
-        my_putstr("setenv: Variable name must begin with a letter.\n");
-        return (84);
-        }
-    if (my_arrlen(input) > 3) {
-        my_printf("%s: Too many arguments.\n", input[0]);
-        return (84);
-    }
-    return (0);
-}
-
 char *new_env_var(char **input)
 {
     char *tmp1 = NULL;

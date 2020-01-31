@@ -12,6 +12,7 @@ SRC					=	src/prompt.c				\
 						src/builtin/exit.c			\
 						src/builtin/env.c			\
 						src/builtin/setenv.c		\
+						src/builtin/setenv_error.c	\
 						src/builtin/unsetenv.c		\
 						src/builtin/cd.c			\
 						src/builtin/cd_back.c		\
