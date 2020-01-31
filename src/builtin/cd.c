@@ -46,7 +46,7 @@ int regular_cd(char *path, char **env)
     return (0);
 }
 
-int cd_home(char **env)
+int cd_home(char **env, char *input)
 {
     int i = find_env(env, "PWD");
     int j = find_env(env, "USER");
@@ -56,6 +56,8 @@ int cd_home(char **env)
         return (84);
     set_oldpwd(env, env[i]);
     tmp = my_strcat("PWD=/home/", env[j] + my_strlen("USER="));
+    if (input)
+        tmp = my_strcat(tmp, input + 1);
     free(env[i]);
     env[i] = tmp;
     chdir(env[i] + 4);
@@ -65,8 +67,8 @@ int cd_home(char **env)
 
 int special_cd(char **input, char **env)
 {
-    if (input[0] && !input[1]) {
-        cd_home(env);
+    if (input[0] && (!input[1] || !my_strncmp(input[1], "~", 1))) {
+        cd_home(env, input[1]);
         clean_path(env);
         return (1);
     }
