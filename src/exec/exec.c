@@ -5,6 +5,7 @@
 ** csflm rtfm
 */
 
+#include <errno.h>
 #include <signal.h>
 #include "my.h"
 #include "minishell.h"
@@ -28,6 +29,7 @@ void exec_error(int child_status)
 
 int execve_error(char *bin_path)
 {
+
     if (access(bin_path, X_OK) == -1) {
         my_printf("%s: Permission denied.\n", bin_path + 2);
         return (0);
@@ -62,8 +64,8 @@ int special_exec(char **input, char **env)
 {
     if (input[0][0] == '/')
         return (raw_exec(input, env));
-    if (input[0][0] == '.')
-        return (open_fold(input, ".", env));
+    if (input[0][0] == '.' && open_fold(input, ".", env))
+        return (1);
     return (1);
 }
 

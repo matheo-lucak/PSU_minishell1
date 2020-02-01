@@ -11,22 +11,19 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int back_cd(char **env)
+int absolute_cd(char *path, char **env)
 {
-    char *tmp1 = NULL;
-    char *tmp2 = NULL;
-    int j = find_env(env, "PWD=");
-    int i = find_env(env, "OLDPWD=");
+    char *tmp = NULL;
+    int i = find_env(env, "PWD");
 
-    if (i == -1 || j == -1)
+    if (i == -1)
         return (84);
-    tmp1 = my_strcat("OLDPWD=", env[j] + 4);
-    tmp2 = my_strcat("PWD=", env[i] + 7);
-    if (env[j])
-        free(env[j]);
-    set_oldpwd(env, tmp1);
-    env[j] = tmp2;
-    chdir(env[j] + 4);
+    set_oldpwd(env, env[i]);
+    tmp = set_new_path("PWD=", path);
+    if (env[i])
+        free(env[i]);
+    env[i] = tmp;
+    chdir(env[i] + 4);
     return (0);
 }
 
@@ -76,6 +73,11 @@ int special_cd(char **input, char **env)
     }
     if (input[1] && !my_strcmp(input[1], "-")) {
         back_cd(env);
+        clean_path(env);
+        return (1);
+    }
+    if (input[1] && !my_strncmp(input[1], "/", 1) && cd_error(input[1]) != 84) {
+        absolute_cd(input[1], env);
         clean_path(env);
         return (1);
     }
