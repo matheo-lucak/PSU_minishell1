@@ -35,7 +35,10 @@ int back_cd(char **env)
     int j = find_env(env, "PWD=");
     int i = find_env(env, "OLDPWD=");
 
-    if (i == -1 || j == -1)
+    if (i == -1) {
+        my_printf(": No such file or directory.\n");
+        return (84);
+    } else if (j == 84)
         return (84);
     tmp1 = my_strcat("OLDPWD=", env[j] + 4);
     tmp2 = my_strcat("PWD=", env[i] + 7);
