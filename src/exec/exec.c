@@ -29,7 +29,6 @@ void exec_error(int child_status)
 
 int execve_error(char *bin_path)
 {
-
     if (access(bin_path, X_OK) == -1) {
         my_printf("%s: Permission denied.\n", bin_path + 2);
         return (0);
