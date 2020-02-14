@@ -48,7 +48,7 @@ int minishell(int ac, char **av , char ***env)
     char *input = NULL;
 
     prompt();
-x    input = get_next_line(0);
+    input = get_next_line(0);
     if (!parse_input(my_str_to_word_array(input, " \t"), env))
         return (0);
     minishell(ac, av, env);
