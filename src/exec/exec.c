@@ -69,9 +69,10 @@ int special_exec(char **input, char **env)
         my_printf("%s: Command not found.\n", input[0]);
         return (1);
     }
-    if (input[0][0] == '/' && !raw_exec(input, env))
+    if (input[0][0] == '/' && !raw_exec(input, env)) {
         my_printf("/%s: Command not found.\n", input[0]);
         return (1);
+    }
     return (1);
 }
 
